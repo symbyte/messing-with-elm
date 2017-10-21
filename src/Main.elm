@@ -2,18 +2,19 @@ module Main exposing (..)
 
 import Html exposing (Html, text, div, img)
 import Html.Attributes exposing (src)
+import Html.Events exposing (onClick)
 
 
 ---- MODEL ----
 
 
 type alias Model =
-    {}
+    { name : String }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( Model "Steven", Cmd.none )
 
 
 
@@ -21,12 +22,14 @@ init =
 
 
 type Msg
-    = NoOp
+    = Exclaim
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        Exclaim ->
+            ( { name = model.name ++ "!" }, Cmd.none )
 
 
 
@@ -37,7 +40,7 @@ view : Model -> Html Msg
 view model =
     div []
         [ img [ src "/logo.svg" ] []
-        , div [] [ text "Your Elm App is working!" ]
+        , div [ onClick Exclaim ] [ text ("Your Elm App is working, " ++ model.name ++ "!") ]
         ]
 
 
