@@ -31,6 +31,7 @@ type Msg
     = Exclaim
     | Reset
     | ChangeName
+    | RandomizeName
     | ChangeInput String
 
 
@@ -46,8 +47,16 @@ update msg model =
         ChangeName ->
             ( { model | name = model.textInput }, Cmd.none )
 
+        RandomizeName ->
+            update (ChangeInput randomName) model
+
         ChangeInput newInput ->
             ( { model | textInput = newInput }, Cmd.none )
+
+
+randomName : String
+randomName =
+    "so random!"
 
 
 
@@ -60,6 +69,7 @@ view model =
         [ img [ src "/logo.svg" ] []
         , div [ onClick Exclaim ] [ text ("Your Elm App is working, " ++ model.name ++ "!") ]
         , button [ onClick Reset ] [ text "Reset" ]
+        , button [ onClick RandomizeName ] [ text "Randomize" ]
         , input [ onEnter ChangeName, onInput ChangeInput, value model.textInput ] []
         ]
 
