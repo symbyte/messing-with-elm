@@ -3,6 +3,7 @@ module Main exposing (..)
 import Html exposing (Html, text, div, img, button, input, Attribute)
 import Html.Attributes exposing (src, value)
 import Html.Events exposing (onClick, on, keyCode, onInput)
+import Random
 import Json.Decode as Json
 
 
@@ -48,15 +49,49 @@ update msg model =
             ( { model | name = model.textInput }, Cmd.none )
 
         RandomizeName ->
-            update (ChangeInput randomName) model
+            ( model, Random.generate ChangeInput randomNameGenerator )
 
         ChangeInput newInput ->
             ( { model | textInput = newInput }, Cmd.none )
 
 
-randomName : String
-randomName =
-    "so random!"
+toName : Int -> String
+toName i =
+    case i of
+        1 ->
+            "Phil"
+
+        2 ->
+            "Bob"
+
+        3 ->
+            "Sue"
+
+        4 ->
+            "Randy"
+
+        5 ->
+            "Elliot"
+
+        6 ->
+            "James"
+
+        7 ->
+            "Frank"
+
+        8 ->
+            "Goku"
+
+        9 ->
+            "Jack"
+
+        _ ->
+            "Nobody"
+
+
+randomNameGenerator : Random.Generator String
+randomNameGenerator =
+    Random.int 0 10 |> Random.map toName
 
 
 
